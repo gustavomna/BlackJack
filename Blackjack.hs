@@ -36,3 +36,13 @@ mostrarCarta [] = ""
 mostrarCarta (c:cs)
   | fromEnum c < 10 && fromEnum c > 0 = show (fromEnum (c) + 1) ++ ", " ++ mostrarCarta cs
   | otherwise = show c ++ ", " ++ mostrarCarta cs
+
+-- mapeia os valores das cartas (J = 11, K = 13)
+mostrarMao :: [Cartas] -> [Int]
+mostrarMao [] = []
+mostrarMao (c:cx) = (fromEnum (c) + 1) : mostrarMao cx
+
+--converte os valores dos inteiros para Cartas (11 =  J, 13 = K) 
+displayCard :: [Int] -> [Cartas]
+displayCard [] = []
+displayCard (x:xs) = toEnum (x - 1) : displayCard xs
