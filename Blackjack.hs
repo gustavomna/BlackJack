@@ -9,6 +9,18 @@ import qualified Data.Map
 
 data Cartas = A | Dois | Tres | Quatro | Cinco | Seis | Sete | Oito | Nove | Dez | J | Q | K deriving (Show, Enum, Bounded, Read)
 
+menu :: Double -> Double -> IO()
+menu curBalance terBalance = do
+  putStrLn "Bem vindo ao BalckJack! digite \"Jogar\" para começar o jogo, \"Regras\"
+           ou \"Sair\" para sair do jogo"
+  command <- getLine
+  if mapToLower command == "regras"
+    then do handle <- openFile "regras.txt" ReadMode
+            contents <- hGetContents handle
+            putStrLn contents
+            menu curBalance terBalance
+    
+
 jogo :: [Cartas] -> [Cartas] -> Double -> Double -> Double -> IO()
 jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
   --  confere se o jogador ganhou o jogo
