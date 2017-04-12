@@ -6,21 +6,31 @@ import Data.List
 import System.Environment
 import System.Random
 import qualified Data.Map
+import System.Exit
 
 data Cartas = A | Dois | Tres | Quatro | Cinco | Seis | Sete | Oito | Nove | Dez | J | Q | K deriving (Show, Enum, Bounded, Read)
 
 menu :: Double -> Double -> IO()
-menu curBalance terBalance = do
-  putStrLn "Bem vindo ao BalckJack! digite \"Jogar\" para começar o jogo, \"Regras\"
-           ou \"Sair\" para sair do jogo"
-  command <- getLine
-  if mapToLower command == "regras"
+menu saldoAtual saldoObjetivo = do
+  putStrLn "Bem vindo ao BalckJack! digite \"Jogar\" para começar o jogo, \"Regras\" ou \"Sair\" para sair do jogo"
+  escolha <- getLine
+  if map toLower escolha == "regras"
     then do handle <- openFile "regras.txt" ReadMode
             contents <- hGetContents handle
             putStrLn contents
-            menu curBalance terBalance
-    
+            menu saldoAtual saldoObjetivo
+  else if map toLower escolha == "jogar"
+          then do putStrLn "Iniciando o Jogo...\n"
+                  dealerGen <- newStdGen
+                  playerGen <- newStdGen
+                  let total = 0
+                  let aposta = 0
+                  jogo (entregarCartasDealer dealerGen total) (iniciarCartasJogador dealerGen total) saldoAtual saldoObjetivo aposta
+  else return ()
 
+
+
+    
 jogo :: [Cartas] -> [Cartas] -> Double -> Double -> Double -> IO()
 jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
   --  confere se o jogador ganhou o jogo
@@ -161,9 +171,9 @@ mostrarMao [] = []
 mostrarMao (c:cx) = (fromEnum (c) + 1) : mostrarMao cx
 
 -- converte os valores dos inteiros para Cartas (11 =  J, 13 = K)
-displayCard :: [Int] -> [Cartas]
-displayCard [] = []
-displayCard (x:xs) = toEnum (x - 1) : displayCard xs
+converterIteiros :: [Int] -> [Cartas]
+converterIteiros [] = []
+converterIteiros (x:xs) = toEnum (x - 1) : converterIteiros xs
 
 -- soma os valores das cartas que estao em um vetor de inteiros, se o 'A' estiver nesse vetor e
 -- a soma total for menor que 12, entao o 'A' valera 11
