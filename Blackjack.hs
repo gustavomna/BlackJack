@@ -1,5 +1,5 @@
 import Text.Read
-import Data.Char 
+import Data.Char
 import System.IO
 import qualified Data.Text.IO
 import Data.List
@@ -26,7 +26,7 @@ iniciarCartasJogador gen parar
 
 -- Entrega uma carta para quem chamar
 entregarCartaJogador :: StdGen -> [Cartas]
-entregarCartasJogador gen = [toEnum (randomNum - 1)]
+entregarCartaJogador gen = [toEnum (randomNum - 1)]
   where (randomNum, novoGen) = randomR(1,13) gen :: (Int, StdGen)
 
 -- recebe um vetor de cartas e retorna um vetor de inteiros contendo os valores
@@ -49,16 +49,16 @@ mostrarMao :: [Cartas] -> [Int]
 mostrarMao [] = []
 mostrarMao (c:cx) = (fromEnum (c) + 1) : mostrarMao cx
 
--- converte os valores dos inteiros para Cartas (11 =  J, 13 = K) 
+-- converte os valores dos inteiros para Cartas (11 =  J, 13 = K)
 displayCard :: [Int] -> [Cartas]
 displayCard [] = []
 displayCard (x:xs) = toEnum (x - 1) : displayCard xs
 
--- soma os valores das cartas que estao em um vetor de inteiros, se o 'A' estiver nesse vetor e 
+-- soma os valores das cartas que estao em um vetor de inteiros, se o 'A' estiver nesse vetor e
 -- a soma total for menor que 12, entao o 'A' valera 11
 somaCartas :: [Int] -> Int
 somaCartas cartas
-	| sum cartas < 12 && 1 `elem` cartas = sum (cartas) + 10
+  | sum cartas < 12 && 1 `elem` cartas = sum (cartas) + 10
   | otherwise = sum cartas
 
 -- mostra resultado do jogo
@@ -67,6 +67,3 @@ apontarTotal cartasDealer cartasJogador
   | somaCartas (valorDaMao cartasDealer) == somaCartas (valorDaMao cartasJogador) = "Jogo Empatado"
   | somaCartas (valorDaMao cartasDealer) > somaCartas (valorDaMao cartasJogador) = "Voce Perdeu"
   | somaCartas (valorDaMao cartasDealer) < somaCartas (valorDaMao cartasJogador) = "Voce Perdeu"
-  
-
-
