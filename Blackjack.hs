@@ -66,4 +66,4 @@ apontarTotal :: [Cartas] -> [Cartas] -> String
 apontarTotal cartasDealer cartasJogador
   | somaCartas (valorDaMao cartasDealer) == somaCartas (valorDaMao cartasJogador) = "Jogo Empatado"
   | somaCartas (valorDaMao cartasDealer) > somaCartas (valorDaMao cartasJogador) = "Voce Perdeu"
-  | somaCartas (valorDaMao cartasDealer) < somaCartas (valorDaMao cartasJogador) = "Voce Perdeu"
+  | somaCartas (valorDaMao cartasDealer) < somaCartas (valorDaMao cartasJogador) = "Voce Ganhou"
