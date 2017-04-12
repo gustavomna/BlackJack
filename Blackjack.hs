@@ -13,10 +13,10 @@ jogo :: [Cartas] -> [Cartas] -> Double -> Double -> Double -> IO()
 jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
   --  confere se o jogador ganhou o jogo
   if saldoAtual >= saldoObjetivo
-    then putStrLn $ "Parabens, voce conseguiu " ++ show saldoAtual ++ " e seu objetivo era " ++ saldoObjetivo
+    then putStrLn $ "Parabens, voce conseguiu " ++ show saldoAtual ++ " e seu objetivo era " ++ show saldoObjetivo
   -- se ainda nao ganhou o jogo
   -- confere se a aposta é valida
-  else if bet == 0
+  else if aposta == 0
     then do putStrLn $ "Voce tem " ++ show saldoAtual ++ " / " ++ show saldoObjetivo
             putStrLn $ "Faca a aposta para o proximo jogo: \n"
             valorDaAposta <- getLine
@@ -25,7 +25,7 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
               then do putStrLn "Aposta invalida, aposte um valor entre 0 e o seu saldo"
                       jogo cartasDealer cartasJogador saldoAtual saldoObjetivo 0
             else do putStrLn $ "Aposta aceita\n"
-                    jogo cartasDealer cartasJogador saldoAtual saldoObjetivo (read valorDaMao::Double)
+                    jogo cartasDealer cartasJogador saldoAtual saldoObjetivo (read valorDaAposta::Double)
   -- confere se o dealer passou de 21
   else if (somaCartas $ valorDaMao cartasDealer) > 21
       then do putStrLn $ "Cartas do Dealer: " ++ mostrarCarta cartasDealer ++ "\n"
@@ -75,7 +75,7 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
                     let novaCarta = entregarCartaJogador jogadorGen
                     let novasCartasDoJogador = cartasJogador ++ novaCarta
                     jogo cartasDealer novasCartasDoJogador saldoAtual saldoObjetivo aposta
-          else if map toLower escola == "parar"
+          else if map toLower escolha == "parar"
             -- voce ganhou
             then if (apontarTotal cartasDealer cartasJogador) == "Voce Ganhou"
               then do putStrLn $ "Cartas do Dealer: " ++ mostrarCarta cartasDealer ++ "\n"
@@ -105,7 +105,7 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
                     jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) saldoAtual saldoObjetivo 0
           --  escolha invalida
           else do putStrLn "Escolha se quer MAIS ou quer PARAR\n"
-            jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta
+                  jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta
 
 
 -- Entrega cartas do dealer. Até o valor ser 17 ou superior.
