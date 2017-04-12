@@ -1,0 +1,15 @@
+Valor das cartas:
+Primeiramente o naipe das cartas não faz diferenca dentro do BlackJack.
+As cartas numeradas de 2 a 10 tem o seu valor baseado nos seus próprios numeros.
+J,Q e K possuem o valor de 10.
+O ás vale 1 ou 11, cabe ao jogador escolher.
+
+Objetivo:
+O objetivo do BlackJack é obter a pontuacao mais proxima possivel de 21 pontos.
+Para vencer, o jogador precisa obter uma pontuacao maior do que a casa e nao
+ultrapassar 21 pontos.
+
+Apostas:
+O jogador aposta dinheiro por rodada. Se o jogador vencer a casa de maneira comum,
+ele recebe o dinheiro em proporcao de 1:1. Caso o jogador tirar um ás e uma carta
+que vale 10 pontos ele recebe em proporcao de 3:2, ou seja, recebe 1,5x a mais.
