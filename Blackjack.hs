@@ -1,4 +1,8 @@
+-- modulos criados
 import FunCartas
+import OperacoesArquivo
+
+-- modulos biblioteca padrao
 import Text.Read
 import Data.Char
 import System.IO
@@ -115,12 +119,14 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
                       putStrLn "Voce tem valor maior, voce ganhou"
                       dealerGen <- newStdGen
                       jogadorGen <- newStdGen
+                      escrever cartasDealer cartasJogador "Voce Ganhou" (show saldoAtual) (show aposta) -- grava em arquivo 
                       jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) (saldoAtual + aposta) saldoObjetivo 0
             -- voce perdeu
             else if (apontarTotal cartasDealer cartasJogador) == "Voce Perdeu"
               then do putStrLn $ "Cartas do Dealer: " ++ mostrarCarta cartasDealer ++ "\n"
                       putStrLn $ "Suas cartas: " ++ mostrarCarta cartasJogador ++ "\n"
                       putStrLn $ "Dealer tem valor maior, voce perdeu"
+                      escrever cartasDealer cartasJogador "Voce Perdeu" (show saldoAtual) (show aposta)
                       -- confere se o jogador esta abaixo do saldo
                       if (saldoAtual - aposta) < 1
                         then putStrLn "Voce perdeu todo seu dinheiro. O jogo acabou"
@@ -134,14 +140,16 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
                     putStrLn $ "Empate! Voce nao ganhou nem perdeu dinheiro"
                     dealerGen <- newStdGen
                     jogadorGen <- newStdGen
+                    escrever cartasDealer cartasJogador "Empate" (show saldoAtual) (show aposta) 
                     jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) saldoAtual saldoObjetivo 0
           --  escolha invalida
           else do putStrLn "Escolha se quer MAIS ou quer PARAR\n"
                   jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta
 
+
 -- mostra resultado do jogo
 apontarTotal :: [Cartas] -> [Cartas] -> String
 apontarTotal cartasDealer cartasJogador
-| somaCartas (valorDaMao cartasDealer) == somaCartas (valorDaMao cartasJogador) = "Jogo Empatado"
-| somaCartas (valorDaMao cartasDealer) > somaCartas (valorDaMao cartasJogador) = "Voce Perdeu"
-| somaCartas (valorDaMao cartasDealer) < somaCartas (valorDaMao cartasJogador) = "Voce Ganhou"
+  | somaCartas (valorDaMao cartasDealer) == somaCartas (valorDaMao cartasJogador) = "Jogo Empatado"
+  | somaCartas (valorDaMao cartasDealer) > somaCartas (valorDaMao cartasJogador) = "Voce Perdeu"
+  | somaCartas (valorDaMao cartasDealer) < somaCartas (valorDaMao cartasJogador) = "Voce Ganhou"
