@@ -26,9 +26,9 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
       then do putStrLn $ "Cartas do Dealer: " ++ mostrarCarta cartasDealer ++ "\n"
               putStrLn $ "Suas cartas: " ++ mostrarCarta cartasJogador ++ "\n"
               putStrLn $ "Dealer passou de 21, voce ganhou"
-              -- e é isso??
               dealerGen <- newStdGen
               jogadorGen <- newStdGen
+              escrever cartasDealer cartasJogador "Voce Ganhou" (show saldoAtual) (show aposta) -- grava em arquivo
               jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) (saldoAtual + aposta) saldoObjetivo 0
   -- confere se o jogador passou de 21
   else if (somaCartas $ valorDaMao cartasJogador) > 21
@@ -41,6 +41,7 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
             else do
               dealerGen <- newStdGen
               jogadorGen <- newStdGen
+              escrever cartasDealer cartasJogador "Voce Perdeu" (show saldoAtual) (show aposta) -- grava em arquivo
               jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) (saldoAtual - aposta) saldoObjetivo 0
   -- se o jogador conseguiu um 21
   else if (somaCartas $ valorDaMao cartasJogador) == 21
@@ -78,7 +79,7 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
                       putStrLn "Voce tem valor maior, voce ganhou"
                       dealerGen <- newStdGen
                       jogadorGen <- newStdGen
-                      escrever cartasDealer cartasJogador "Voce Ganhou" (show saldoAtual) (show aposta) -- grava em arquivo 
+                      escrever cartasDealer cartasJogador "Voce Ganhou" (show saldoAtual) (show aposta) -- grava em arquivo
                       jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) (saldoAtual + aposta) saldoObjetivo 0
             -- voce perdeu
             else if (apontarTotal cartasDealer cartasJogador) == "Voce Perdeu"
@@ -99,7 +100,7 @@ jogo cartasDealer cartasJogador saldoAtual saldoObjetivo aposta = do
                     putStrLn $ "Empate! Voce nao ganhou nem perdeu dinheiro"
                     dealerGen <- newStdGen
                     jogadorGen <- newStdGen
-                    escrever cartasDealer cartasJogador "Empate" (show saldoAtual) (show aposta) 
+                    escrever cartasDealer cartasJogador "Empate" (show saldoAtual) (show aposta)
                     jogo (entregarCartasDealer dealerGen 0) (iniciarCartasJogador jogadorGen 2) saldoAtual saldoObjetivo 0
           --  escolha invalida
           else do putStrLn "Escolha se quer MAIS ou quer PARAR\n"
